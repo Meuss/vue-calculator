@@ -11,5 +11,7 @@ Goals:
 - Keep learning Vue.js
 - Managing state better with Vuex
 - Customizing Webpack
+- Some flashy ES6
+- css grid
 
 
