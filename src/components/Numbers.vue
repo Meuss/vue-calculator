@@ -14,7 +14,7 @@ export default {
   props: ['number'],
   methods: {
     click() {
-      console.log(this.number);
+      this.$store.commit('number', this.number);
     },
   },
 };
@@ -29,7 +29,6 @@ div {
   justify-content: center;
   align-items: center;
   background-color: #eee;
-  cursor: pointer;
   height: 100%;
 }
 </style>

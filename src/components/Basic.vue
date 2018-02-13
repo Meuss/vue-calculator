@@ -1,10 +1,10 @@
 <template>
   <div class="basic-outer">
-    <div class="basic divide">÷</div>
-    <div class="basic multiply">×</div>
-    <div class="basic minus">-</div>
-    <div class="basic plus">+</div>
-    <div class="basic equals">=</div>
+    <div class="basic divide" @click="divide">÷</div>
+    <div class="basic multiply" @click="multiply">×</div>
+    <div class="basic minus" @click="minus">-</div>
+    <div class="basic plus" @click="plus">+</div>
+    <div class="basic equals" @click="equals">=</div>
   </div>
 </template>
 
@@ -13,6 +13,26 @@ export default {
   data() {
     return {
     };
+  },
+  methods: {
+    inverse() {
+      this.$store.commit('inverse');
+    },
+    divide() {
+      this.$store.commit('divide');
+    },
+    multiply() {
+      this.$store.commit('multiply');
+    },
+    minus() {
+      this.$store.commit('minus');
+    },
+    plus() {
+      this.$store.commit('plus');
+    },
+    equals() {
+      this.$store.commit('equals');
+    },
   },
 };
 </script>

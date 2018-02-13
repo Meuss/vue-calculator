@@ -76,13 +76,19 @@ body {
   0 40px 100px -10px rgba(0, 0, 0, 0.6);
 }
 .value-wrapper {
-  height: 80px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 22px 15px 5px 15px;
 }
 .buttons {
   display: grid;
   grid-template-rows: repeat(5, 47px);
   grid-template-columns: repeat(4, 58px);
   grid-gap: 1px;
+  div {
+    cursor: pointer;
+  }
 }
 .advanced-wrapper {
   grid-column: 1 / 4;

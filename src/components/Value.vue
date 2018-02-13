@@ -1,6 +1,6 @@
 <template>
   <div class="value">
-    {{current}}
+    {{currentShown}}
   </div>
 </template>
 
@@ -11,8 +11,8 @@ export default {
     };
   },
   computed: {
-    current() {
-      return this.$store.state.current;
+    currentShown() {
+      return this.$store.state.currentShown;
     },
   },
 };
@@ -20,5 +20,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
+  .value {
+    color: white;
+    font-weight: 300;
+    font-size: 45px;
+  }
 </style>
