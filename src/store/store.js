@@ -6,11 +6,13 @@ Vue.use(Vuex);
 // eslint-disable-next-line
 export const store = new Vuex.Store({
   strict: true,
-  // single source of truth
   state: {
-    current: false,
     currentShown: 0,
-    lastKey: false,
+    lastOperator: false,
+    lastClickedWasOperator: false,
+    newNum: false,
+    oldNum: '',
+    resultNum: '',
   },
   // like computed properties, but for the store
   getters: {},
@@ -21,47 +23,99 @@ export const store = new Vuex.Store({
   // and it will receive the state as the first argument
   mutations: {
     reset(state) {
-      state.current = false;
       state.currentShown = 0;
-      state.lastKey = false;
+      state.lastClickedWasOperator = false;
+      state.lastOperator = false;
+      state.newNum = false;
+      state.oldNum = '';
+      state.resultNum = '';
     },
     number(state, value) {
-      if (!state.lastKey) {
-        state.lastKey = false;
+      if (!state.lastClickedWasOperator) {
         if (isNaN(value)) {
+          // '.' was passed
           const str1 = state.currentShown.toString();
           const str2 = value.toString();
-          state.currentShown = str1 + str2;
+          state.currentShown = parseFloat(str1 + str2);
         } else {
           const str1 = state.currentShown.toString();
           const str2 = value.toString();
-          state.currentShown = Number(str1.concat(str2));
+          state.currentShown = parseFloat(str1.concat(str2));
         }
+      } else {
+        state.currentShown = value;
+        state.lastClickedWasOperator = false;
       }
     },
     inverse(state) {
-      state.lastKey = '+-';
-      state.currentShown = -state.currentShown;
+      state.lastOperator = '+-';
+      state.lastClickedWasOperator = true;
+      state.oldNum = -state.currentShown;
     },
     divide(state) {
-      state.lastKey = '/';
-      state.current = state.currentShown;
+      state.lastOperator = '/';
+      state.lastClickedWasOperator = true;
+      state.oldNum = state.currentShown;
     },
     multiply(state) {
-      state.lastKey = '*';
-      state.current = state.currentShown;
+      state.lastOperator = '*';
+      state.lastClickedWasOperator = true;
+      state.oldNum = state.currentShown;
     },
     minus(state) {
-      state.lastKey = '-';
-      state.current = state.currentShown;
+      state.lastOperator = '-';
+      state.lastClickedWasOperator = true;
+      state.oldNum = state.currentShown;
     },
     plus(state) {
-      state.lastKey = '+';
-      state.current = state.currentShown;
+      state.lastOperator = '+';
+      state.lastClickedWasOperator = true;
+      state.oldNum = state.currentShown;
     },
     equals(state) {
-      state.lastKey = '=';
-      state.current = state.currentShown;
+      // state.oldNum = state.currentShown;
+      // Convert string input to numbers
+      // state.lastClickedWasOperator = true;
+      state.currentShown = Number(state.currentShown);
+      state.oldNum = Number(state.oldNum);
+      // Perform operation
+      switch (state.lastOperator) {
+        case '+':
+          console.log('equals with plus');
+          this.resultNum = this.oldNum + this.CurrentShown;
+          break;
+        case '-':
+          this.resultNum = this.oldNum - this.CurrentShown;
+          break;
+        case '*':
+          this.resultNum = this.oldNum * this.CurrentShown;
+          break;
+        case '/':
+          this.resultNum = this.oldNum / this.CurrentShown;
+          break;
+        case '+-':
+          this.resultNum = -this.oldNum;
+          break;
+        // If equal is pressed without an operator, keep number and continue
+        default:
+          this.resultNum = this.CurrentShown;
+      }
+
+      if (!isFinite(this.resultNum)) {
+        // If result is not a number
+        if (isNaN(this.resultNum)) {
+          this.currentShown = 'NaN';
+          this.resultNum = 'NaN';
+        } else {
+          this.currentShown = 'infinity';
+          this.resultNum = 'infinity';
+        }
+      }
+      // Display result
+      state.currentShown = this.resultNum;
+      // Now reset
+      state.newNum = false;
+      state.lastOperator = false;
     },
   },
   // Actions are similar to mutations, the differences being that:
