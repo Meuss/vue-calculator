@@ -14,4 +14,13 @@ Goals:
 - Some flashy ES6
 - css grid
 
+TODOS / Bugs
 
+- execute operation directly if e.g. 4 + 4 - 2 (without =)
+- prevent multiple dots
+- fix floating point (toFixed)
+- Fix inverse and percent logic
+- Allow negative numbers
+- more to come
+- close / open buttons?
+- set max digits

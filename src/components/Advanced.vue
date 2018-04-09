@@ -2,7 +2,7 @@
   <div class="advanced-outer">
     <div class="advanced ac" @click="reset">AC</div>
     <div class="advanced inverse" @click="inverse">+/-</div>
-    <div class="advanced percent">%</div>
+    <div class="advanced percent" @click="percent">%</div>
   </div>
 </template>
 
@@ -18,6 +18,9 @@ export default {
     },
     reset() {
       this.$store.commit('reset');
+    },
+    percent() {
+      this.$store.commit('percent');
     },
   },
 };

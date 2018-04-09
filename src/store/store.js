@@ -36,7 +36,7 @@ export const store = new Vuex.Store({
           // '.' was passed
           const str1 = state.currentShown.toString();
           const str2 = value.toString();
-          state.currentShown = parseFloat(str1 + str2);
+          state.currentShown = str1 + str2;
         } else {
           const str1 = state.currentShown.toString();
           const str2 = value.toString();
@@ -48,9 +48,9 @@ export const store = new Vuex.Store({
       }
     },
     inverse(state) {
-      state.lastOperator = '+-';
+      state.lastOperator = 'inverse';
       state.lastClickedWasOperator = true;
-      state.oldNum = -state.currentShown;
+      state.oldNum = state.currentShown;
     },
     divide(state) {
       state.lastOperator = '/';
@@ -72,49 +72,50 @@ export const store = new Vuex.Store({
       state.lastClickedWasOperator = true;
       state.oldNum = state.currentShown;
     },
+    percent(state) {
+      state.lastOperator = '%';
+      state.lastClickedWasOperator = true;
+      state.oldNum = state.currentShown;
+    },
     equals(state) {
-      // state.oldNum = state.currentShown;
-      // Convert string input to numbers
-      // state.lastClickedWasOperator = true;
-      state.currentShown = Number(state.currentShown);
-      state.oldNum = Number(state.oldNum);
-      // Perform operation
       switch (state.lastOperator) {
         case '+':
-          console.log('equals with plus');
-          this.resultNum = this.oldNum + this.CurrentShown;
+          state.resultNum = parseFloat(state.oldNum) + parseFloat(state.currentShown);
           break;
         case '-':
-          this.resultNum = this.oldNum - this.CurrentShown;
+          state.resultNum = parseFloat(state.oldNum) - parseFloat(state.currentShown);
           break;
         case '*':
-          this.resultNum = this.oldNum * this.CurrentShown;
+          state.resultNum = parseFloat(state.oldNum) * parseFloat(state.currentShown);
           break;
         case '/':
-          this.resultNum = this.oldNum / this.CurrentShown;
+          state.resultNum = parseFloat(state.oldNum) / parseFloat(state.currentShown);
           break;
-        case '+-':
-          this.resultNum = -this.oldNum;
+        case 'inverse':
+          state.resultNum = -parseFloat(state.oldNum);
+          break;
+        case '%':
+          state.resultNum = parseFloat(state.oldNum) / 100;
           break;
         // If equal is pressed without an operator, keep number and continue
         default:
-          this.resultNum = this.CurrentShown;
+          state.resultNum = state.currentShown;
       }
 
-      if (!isFinite(this.resultNum)) {
+      if (!isFinite(state.resultNum)) {
         // If result is not a number
-        if (isNaN(this.resultNum)) {
-          this.currentShown = 'NaN';
-          this.resultNum = 'NaN';
+        if (isNaN(state.resultNum)) {
+          state.currentShown = 'NaN';
+          state.resultNum = 'NaN';
         } else {
-          this.currentShown = 'infinity';
-          this.resultNum = 'infinity';
+          state.currentShown = 'infinity';
+          state.resultNum = 'infinity';
         }
       }
       // Display result
-      state.currentShown = this.resultNum;
+      state.currentShown = state.resultNum;
       // Now reset
-      state.newNum = false;
+      state.oldNum = '';
       state.lastOperator = false;
     },
   },
