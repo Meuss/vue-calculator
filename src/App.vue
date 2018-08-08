@@ -61,7 +61,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url('/static/sierra.jpg');
+  background-image: url('https://thomasmiller.ch/temp_files/sierra.jpg');
   background-size: cover;
   background-position: center center;
 }
