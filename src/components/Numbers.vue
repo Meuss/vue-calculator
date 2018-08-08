@@ -6,21 +6,20 @@
 
 <script>
 export default {
-  data() {
-    return {
-      // numbers: [7, 8, 9, 4, 5, 6, 1, 2, 3, 0, '.'],
-    };
-  },
   props: ['number'],
   methods: {
     click() {
       this.$store.commit('number', this.number);
+      this.clickfx(this.number);
+    },
+    clickfx(elem) {
+      document.querySelector(`[data-number="${elem}"]`).classList.add('clicked');
+      setTimeout(() => { document.querySelector(`[data-number="${elem}"]`).classList.remove('clicked'); }, 80);
     },
   },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 
 div {

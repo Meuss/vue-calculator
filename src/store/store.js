@@ -3,6 +3,9 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+// I should refactor everything, but no time.
+
+
 // eslint-disable-next-line
 export const store = new Vuex.Store({
   strict: true,
@@ -14,13 +17,6 @@ export const store = new Vuex.Store({
     oldNum: '',
     resultNum: '',
   },
-  // like computed properties, but for the store
-  getters: {},
-  // To change state in a Vuex store you commit a mutation.
-  // Vuex mutations are very similar to events:
-  // each mutation has a string type and a handler.
-  // The handler function is where we perform actual state modifications,
-  // and it will receive the state as the first argument
   mutations: {
     reset(state) {
       state.currentShown = 0;
@@ -33,10 +29,14 @@ export const store = new Vuex.Store({
     number(state, value) {
       if (!state.lastClickedWasOperator) {
         if (isNaN(value)) {
-          // '.' was passed
-          const str1 = state.currentShown.toString();
-          const str2 = value.toString();
-          state.currentShown = str1 + str2;
+          // '.'
+          if (state.currentShown.toString().indexOf('.') === -1) {
+            const str1 = state.currentShown.toString();
+            const str2 = value.toString();
+            state.currentShown = str1 + str2;
+          } else {
+            console.log('already has a dot!');
+          }
         } else {
           const str1 = state.currentShown.toString();
           const str2 = value.toString();
@@ -50,7 +50,7 @@ export const store = new Vuex.Store({
     inverse(state) {
       state.lastOperator = 'inverse';
       state.lastClickedWasOperator = true;
-      state.oldNum = state.currentShown;
+      state.currentShown = -state.currentShown;
     },
     divide(state) {
       state.lastOperator = '/';
@@ -75,7 +75,7 @@ export const store = new Vuex.Store({
     percent(state) {
       state.lastOperator = '%';
       state.lastClickedWasOperator = true;
-      state.oldNum = state.currentShown;
+      state.currentShown /= 100;
     },
     equals(state) {
       switch (state.lastOperator) {
@@ -92,7 +92,8 @@ export const store = new Vuex.Store({
           state.resultNum = parseFloat(state.oldNum) / parseFloat(state.currentShown);
           break;
         case 'inverse':
-          state.resultNum = -parseFloat(state.oldNum);
+          // do nothing
+          state.resultNum = state.currentShown;
           break;
         case '%':
           state.resultNum = parseFloat(state.oldNum) / 100;
@@ -119,8 +120,4 @@ export const store = new Vuex.Store({
       state.lastOperator = false;
     },
   },
-  // Actions are similar to mutations, the differences being that:
-  // Instead of mutating the state, actions commit mutations.
-  // Actions can contain arbitrary asynchronous operations.
-  actions: {},
 });

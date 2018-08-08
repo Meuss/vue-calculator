@@ -1,6 +1,11 @@
 <template>
   <div id="app">
     <div class="value-wrapper">
+      <div class="fake-buttons">
+        <div class="close"></div>
+        <div class="minimize"></div>
+        <div class="fullscreen"></div>
+      </div>
       <Value/>
     </div>
     <div class="buttons">
@@ -70,16 +75,41 @@ body {
   color: #2c3e50;
   border-radius: 7px;
   overflow: hidden;
+  max-width: 235px;
   /* box-shadow: 0px 10px 42px 0px rgba(0,0,0,0.35); */
   box-shadow: 3px 6px 12px 0 rgba(0, 0, 0, 0.2),
   -3px 6px 12px 0 rgba(0, 0, 0, 0.2),
   0 40px 100px -10px rgba(0, 0, 0, 0.6);
+}
+.fake-buttons {
+  width: 45px;
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  display: flex;
+  justify-content: space-between;
+  div {
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    &.close {
+      background-color: #FF4558;
+    }
+    &.minimize {
+      background-color: #FFB955;
+    }
+    &.fullscreen {
+      background-color: #24CA5B;
+    }
+  }
 }
 .value-wrapper {
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
   padding: 22px 15px 5px 15px;
+  position: relative;
 }
 .buttons {
   display: grid;
@@ -110,6 +140,11 @@ body {
 .number {
   &[data-number="0"] {
     grid-column: 1 / 3;
+  }
+  &.clicked {
+    div {
+      background-color: darken(#eee, 10%);
+    }
   }
 }
 </style>

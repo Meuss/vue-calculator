@@ -10,34 +10,35 @@
 
 <script>
 export default {
-  data() {
-    return {
-    };
-  },
   methods: {
-    inverse() {
-      this.$store.commit('inverse');
+    clickfx(elem) {
+      document.querySelector(elem).classList.add('clicked');
+      setTimeout(() => { document.querySelector(elem).classList.remove('clicked'); }, 80);
     },
     divide() {
       this.$store.commit('divide');
+      this.clickfx('.basic.divide');
     },
     multiply() {
       this.$store.commit('multiply');
+      this.clickfx('.basic.multiply');
     },
     minus() {
       this.$store.commit('minus');
+      this.clickfx('.basic.minus');
     },
     plus() {
       this.$store.commit('plus');
+      this.clickfx('.basic.plus');
     },
     equals() {
       this.$store.commit('equals');
+      this.clickfx('.basic.equals');
     },
   },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .basic-outer {
   display: grid;
@@ -51,5 +52,8 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: #fe9140;
+  &.clicked {
+    background-color: darken(#fe9140, 5%);
+  }
 }
 </style>
